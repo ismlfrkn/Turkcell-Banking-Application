@@ -5,25 +5,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.turkcell.spring_starter.dto.ProductCreatedResponse;
 import com.turkcell.spring_starter.dto.ProductForCreateDto;
-import com.turkcell.spring_starter.model.Product;
+import com.turkcell.spring_starter.service.ProductServiceImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import jakarta.validation.Valid;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 //Tarayıcılar varsayılan olarak get isteği atarlar.
 
 //!!! Altın Kural: Veritabanı nesneleri requestte de responseda da kullanılamaz.
-@RestController 
+@RestController //Uygulamada gerektiğinde controlleri newleme işlemini yapar.
 @RequestMapping("api/product") // localhost:8000/api/product -> ProductController 
 
 //Bu class bir rest controller'dır,içini uygulama başladığında tara, http->function
@@ -59,10 +55,31 @@ public class ProductController {
     */
 
     //In-Memory Çalış...
-    private List<Product> productList = new ArrayList<>();
+    //private List<Product> productList = new ArrayList<>();
 
 
-    @GetMapping("")
+
+
+
+    private final ProductServiceImpl productServiceImpl;
+
+    public ProductController(ProductServiceImpl productServiceImpl) {
+        this.productServiceImpl = productServiceImpl;
+    }
+
+
+    @PostMapping
+    public ProductCreatedResponse create(@RequestBody @Valid ProductForCreateDto productDto) {
+        return this.productServiceImpl.create(productDto);
+    }
+
+
+
+
+
+
+    /* 
+    @GetMapping()
     public List<Product> getAllProduct()
     {
         //Veritabanındaki Product nesnelerini listele
@@ -126,7 +143,7 @@ public class ProductController {
     }
     
     //DTO => Data Transfer Object => DTO'lar entity ile X (Controller, Service) arası veri transferi için oluşturulan sınıflardır.
-
+    */
     
 
 
