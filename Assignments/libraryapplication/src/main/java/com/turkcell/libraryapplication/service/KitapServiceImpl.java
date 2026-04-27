@@ -17,104 +17,104 @@ import java.util.UUID;
 @Service
 public class KitapServiceImpl {
 
-    private final KitapRepository kitapRepository;
-    private final YayineviRepository yayineviRepository;
-    private final YazarRepository yazarRepository;
+        private final KitapRepository kitapRepository;
+        private final YayineviRepository yayineviRepository;
+        private final YazarRepository yazarRepository;
 
-    public KitapServiceImpl(KitapRepository kitapRepository,
-                             YayineviRepository yayineviRepository,
-                             YazarRepository yazarRepository) {
-        this.kitapRepository = kitapRepository;
-        this.yayineviRepository = yayineviRepository;
-        this.yazarRepository = yazarRepository;
-    }
+        public KitapServiceImpl(KitapRepository kitapRepository,
+                        YayineviRepository yayineviRepository,
+                        YazarRepository yazarRepository) {
+                this.kitapRepository = kitapRepository;
+                this.yayineviRepository = yayineviRepository;
+                this.yazarRepository = yazarRepository;
+        }
 
-    public List<KitapResponse> getAll() {
-        return kitapRepository.findAll()
-                .stream()
-                .map(kitap -> {
-                    KitapResponse response = new KitapResponse();
-                    response.setKitapID(kitap.getKitapID());
-                    response.setKitapAd(kitap.getKitapAd());
-                    response.setSayfaSayisi(kitap.getSayfaSayisi());
-                    response.setKitapTuru(kitap.getKitapTuru());
-                    response.setYayineviNo(kitap.getYayinevi().getYayineviNo());
-                    response.setYazarNo(kitap.getYazar().getYazarNo());
-                    return response;
-                })
-                .toList();
-    }
+        public List<KitapResponse> getAll() {
+                return kitapRepository.findAll()
+                                .stream()
+                                .map(kitap -> {
+                                        KitapResponse response = new KitapResponse();
+                                        response.setKitapID(kitap.getKitapID());
+                                        response.setKitapAd(kitap.getKitapAd());
+                                        response.setSayfaSayisi(kitap.getSayfaSayisi());
+                                        response.setKitapTuru(kitap.getKitapTuru());
+                                        response.setYayineviNo(kitap.getYayinevi().getYayineviNo());
+                                        response.setYazarNo(kitap.getYazar().getYazarNo());
+                                        return response;
+                                })
+                                .toList();
+        }
 
-    public KitapResponse getById(UUID id) {
-        Kitap kitap = kitapRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Kitap bulunamadı: " + id));
+        public KitapResponse getById(UUID id) {
+                Kitap kitap = kitapRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException("Kitap bulunamadı: " + id));
 
-        KitapResponse response = new KitapResponse();
-        response.setKitapID(kitap.getKitapID());
-        response.setKitapAd(kitap.getKitapAd());
-        response.setSayfaSayisi(kitap.getSayfaSayisi());
-        response.setKitapTuru(kitap.getKitapTuru());
-        response.setYayineviNo(kitap.getYayinevi().getYayineviNo());
-        response.setYazarNo(kitap.getYazar().getYazarNo());
+                KitapResponse response = new KitapResponse();
+                response.setKitapID(kitap.getKitapID());
+                response.setKitapAd(kitap.getKitapAd());
+                response.setSayfaSayisi(kitap.getSayfaSayisi());
+                response.setKitapTuru(kitap.getKitapTuru());
+                response.setYayineviNo(kitap.getYayinevi().getYayineviNo());
+                response.setYazarNo(kitap.getYazar().getYazarNo());
 
-        return response;
-    }
+                return response;
+        }
 
-    public KitapResponse add(CreateKitapRequest request) {
-        Yayinevi yayinevi = yayineviRepository.findById(request.getYayineviNo())
-                .orElseThrow(() -> new RuntimeException("Yayinevi bulunamadı"));
-        Yazar yazar = yazarRepository.findById(request.getYazarNo())
-                .orElseThrow(() -> new RuntimeException("Yazar bulunamadı"));
+        public KitapResponse add(CreateKitapRequest request) {
+                Yayinevi yayinevi = yayineviRepository.findById(request.getYayineviNo())
+                                .orElseThrow(() -> new RuntimeException("Yayinevi bulunamadı"));
+                Yazar yazar = yazarRepository.findById(request.getYazarNo())
+                                .orElseThrow(() -> new RuntimeException("Yazar bulunamadı"));
 
-        Kitap kitap = new Kitap();
-        kitap.setKitapAd(request.getKitapAd());
-        kitap.setSayfaSayisi(request.getSayfaSayisi());
-        kitap.setKitapTuru(request.getKitapTuru());
-        kitap.setYayinevi(yayinevi);
-        kitap.setYazar(yazar);
-        kitapRepository.save(kitap);
+                Kitap kitap = new Kitap();
+                kitap.setKitapAd(request.getKitapAd());
+                kitap.setSayfaSayisi(request.getSayfaSayisi());
+                kitap.setKitapTuru(request.getKitapTuru());
+                kitap.setYayinevi(yayinevi);
+                kitap.setYazar(yazar);
+                kitapRepository.save(kitap);
 
-        KitapResponse response = new KitapResponse();
-        response.setKitapID(kitap.getKitapID());
-        response.setKitapAd(kitap.getKitapAd());
-        response.setSayfaSayisi(kitap.getSayfaSayisi());
-        response.setKitapTuru(kitap.getKitapTuru());
-        response.setYayineviNo(kitap.getYayinevi().getYayineviNo());
-        response.setYazarNo(kitap.getYazar().getYazarNo());
+                KitapResponse response = new KitapResponse();
+                response.setKitapID(kitap.getKitapID());
+                response.setKitapAd(kitap.getKitapAd());
+                response.setSayfaSayisi(kitap.getSayfaSayisi());
+                response.setKitapTuru(kitap.getKitapTuru());
+                response.setYayineviNo(kitap.getYayinevi().getYayineviNo());
+                response.setYazarNo(kitap.getYazar().getYazarNo());
 
-        return response;
-    }
+                return response;
+        }
 
-    public KitapResponse update(UUID id, UpdateKitapRequest request) {
-        Kitap kitap = kitapRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Kitap bulunamadı: " + id));
+        public KitapResponse update(UUID id, UpdateKitapRequest request) {
+                Kitap kitap = kitapRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException("Kitap bulunamadı: " + id));
 
-        Yayinevi yayinevi = yayineviRepository.findById(request.getYayineviNo())
-                .orElseThrow(() -> new RuntimeException("Yayinevi bulunamadı"));
-        Yazar yazar = yazarRepository.findById(request.getYazarNo())
-                .orElseThrow(() -> new RuntimeException("Yazar bulunamadı"));
+                Yayinevi yayinevi = yayineviRepository.findById(request.getYayineviNo())
+                                .orElseThrow(() -> new RuntimeException("Yayinevi bulunamadı"));
+                Yazar yazar = yazarRepository.findById(request.getYazarNo())
+                                .orElseThrow(() -> new RuntimeException("Yazar bulunamadı"));
 
-        kitap.setKitapAd(request.getKitapAd());
-        kitap.setSayfaSayisi(request.getSayfaSayisi());
-        kitap.setKitapTuru(request.getKitapTuru());
-        kitap.setYayinevi(yayinevi);
-        kitap.setYazar(yazar);
-        kitapRepository.save(kitap);
+                kitap.setKitapAd(request.getKitapAd());
+                kitap.setSayfaSayisi(request.getSayfaSayisi());
+                kitap.setKitapTuru(request.getKitapTuru());
+                kitap.setYayinevi(yayinevi);
+                kitap.setYazar(yazar);
+                kitapRepository.save(kitap);
 
-        KitapResponse response = new KitapResponse();
-        response.setKitapID(kitap.getKitapID());
-        response.setKitapAd(kitap.getKitapAd());
-        response.setSayfaSayisi(kitap.getSayfaSayisi());
-        response.setKitapTuru(kitap.getKitapTuru());
-        response.setYayineviNo(kitap.getYayinevi().getYayineviNo());
-        response.setYazarNo(kitap.getYazar().getYazarNo());
+                KitapResponse response = new KitapResponse();
+                response.setKitapID(kitap.getKitapID());
+                response.setKitapAd(kitap.getKitapAd());
+                response.setSayfaSayisi(kitap.getSayfaSayisi());
+                response.setKitapTuru(kitap.getKitapTuru());
+                response.setYayineviNo(kitap.getYayinevi().getYayineviNo());
+                response.setYazarNo(kitap.getYazar().getYazarNo());
 
-        return response;
-    }
+                return response;
+        }
 
-    public void delete(UUID id) {
-        Kitap kitap = kitapRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Kitap bulunamadı: " + id));
-        kitapRepository.delete(kitap);
-    }
+        public void delete(UUID id) {
+                Kitap kitap = kitapRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException("Kitap bulunamadı: " + id));
+                kitapRepository.delete(kitap);
+        }
 }
