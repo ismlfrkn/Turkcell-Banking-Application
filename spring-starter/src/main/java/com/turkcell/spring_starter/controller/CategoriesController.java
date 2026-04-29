@@ -37,6 +37,12 @@ public class CategoriesController {
     public List<ListCategoryResponse> getAll(){
         return categoryServiceImpl.getAll();
     }
+
+    @GetMapping("search")
+    public List<ListCategoryResponse> getMethodName(@RequestParam String query)
+    {
+        return categoryServiceImpl.search(query);
+    }
     
     
 }
