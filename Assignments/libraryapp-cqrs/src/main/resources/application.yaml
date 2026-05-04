@@ -1,0 +1,13 @@
+spring:
+    application:
+        name: libraryapp
+    
+    datasource:
+        url: jdbc:postgresql://localhost:5433/turkcell-libraryappdb
+        username: admin
+        password: admin
+        driver-class-name: org.postgresql.Driver 
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
