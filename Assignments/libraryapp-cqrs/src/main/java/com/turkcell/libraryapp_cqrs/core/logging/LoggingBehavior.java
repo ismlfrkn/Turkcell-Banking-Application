@@ -7,7 +7,7 @@ import com.turkcell.libraryapp_cqrs.core.mediator.pipeline.PipelineBehavior;
 import com.turkcell.libraryapp_cqrs.core.mediator.pipeline.RequestHandlerDelegate;
 
 @Component
-@Order(20)
+@Order(3)
 public class LoggingBehavior implements PipelineBehavior {
 
     @Override

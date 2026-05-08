@@ -7,7 +7,7 @@ import com.turkcell.libraryapp_cqrs.core.mediator.pipeline.PipelineBehavior;
 import com.turkcell.libraryapp_cqrs.core.mediator.pipeline.RequestHandlerDelegate;
 
 @Component
-@Order(10)
+@Order(2)
 public class AuthorizationBehavior implements PipelineBehavior {
 
     // ilgili handler'ın öncesi ve sonrası çalıştırabilen kodlar.

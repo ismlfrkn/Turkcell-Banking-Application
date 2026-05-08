@@ -7,7 +7,7 @@ import com.turkcell.libraryapp_cqrs.core.mediator.pipeline.PipelineBehavior;
 import com.turkcell.libraryapp_cqrs.core.mediator.pipeline.RequestHandlerDelegate;
 
 @Component
-@Order(5)
+@Order(1)
 public class PerformanceMonitoringBehavior implements PipelineBehavior {
 
     private static final long THRESHOLD_MS = 3000;
