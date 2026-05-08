@@ -1,8 +1,9 @@
 package com.turkcell.libraryapp_cqrs.application.features.ogrenci.command.create;
 
 import com.turkcell.libraryapp_cqrs.core.mediator.cqrs.CommandHandler;
-import com.turkcell.libraryapp_cqrs.entity.Ogrenci;
-import com.turkcell.libraryapp_cqrs.repository.OgrenciRepository;
+import com.turkcell.libraryapp_cqrs.domain.Ogrenci;
+import com.turkcell.libraryapp_cqrs.persistence.repository.OgrenciRepository;
+
 import org.springframework.stereotype.Component;
 
 @Component

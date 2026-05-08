@@ -1,0 +1,15 @@
+package com.turkcell.libraryapp_cqrs.application.features.user.command.register;
+
+import java.util.UUID;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.turkcell.libraryapp_cqrs.core.mediator.cqrs.Command;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public record RegisterCommand(
+    @NotBlank @Email String email,
+    @NotBlank @Length(min = 3) String password
+) implements Command<RegisterResponse>{}

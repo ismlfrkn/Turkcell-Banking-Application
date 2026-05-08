@@ -1,10 +1,11 @@
 package com.turkcell.libraryapp_cqrs.application.features.kutuphane.command.create;
 
 import com.turkcell.libraryapp_cqrs.core.mediator.cqrs.CommandHandler;
-import com.turkcell.libraryapp_cqrs.entity.Adres;
-import com.turkcell.libraryapp_cqrs.entity.Kutuphane;
-import com.turkcell.libraryapp_cqrs.repository.AdresRepository;
-import com.turkcell.libraryapp_cqrs.repository.KutuphaneRepository;
+import com.turkcell.libraryapp_cqrs.domain.Adres;
+import com.turkcell.libraryapp_cqrs.domain.Kutuphane;
+import com.turkcell.libraryapp_cqrs.persistence.repository.AdresRepository;
+import com.turkcell.libraryapp_cqrs.persistence.repository.KutuphaneRepository;
+
 import org.springframework.stereotype.Component;
 
 @Component

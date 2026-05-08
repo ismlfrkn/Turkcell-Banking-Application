@@ -1,9 +1,18 @@
 package com.turkcell.spring_cqrs.application.features.category.command.create;
 
-// Command-Query -> DTO
+import org.hibernate.validator.constraints.Length;
 
-import java.util.UUID;
+// Command-Query -> DTO
 
 import com.turkcell.spring_cqrs.core.mediator.cqrs.Command;
 
-public record CreateCategoryCommand(String name, String description) implements Command<UUID> {}
+import jakarta.validation.constraints.NotBlank;
+
+//Request Dto
+public record CreateCategoryCommand
+(
+    @NotBlank
+    @Length(min = 5,max = 100)
+    String name
+) 
+implements Command<CreatedCategoryResponse> {}

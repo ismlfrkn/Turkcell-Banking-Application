@@ -1,10 +1,11 @@
 package com.turkcell.libraryapp_cqrs.application.features.yazar.command.create;
 
 import com.turkcell.libraryapp_cqrs.core.mediator.cqrs.CommandHandler;
-import com.turkcell.libraryapp_cqrs.entity.Yayinevi;
-import com.turkcell.libraryapp_cqrs.entity.Yazar;
-import com.turkcell.libraryapp_cqrs.repository.YayineviRepository;
-import com.turkcell.libraryapp_cqrs.repository.YazarRepository;
+import com.turkcell.libraryapp_cqrs.domain.Yayinevi;
+import com.turkcell.libraryapp_cqrs.domain.Yazar;
+import com.turkcell.libraryapp_cqrs.persistence.repository.YayineviRepository;
+import com.turkcell.libraryapp_cqrs.persistence.repository.YazarRepository;
+
 import org.springframework.stereotype.Component;
 
 @Component
