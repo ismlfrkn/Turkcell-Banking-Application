@@ -1,52 +1,71 @@
 package com.turkcell.spring_cqrs.core.security.jwt;
 
-
-
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
+import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
-
+import com.turkcell.spring_cqrs.core.security.jwt.JwtProperties;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Service
-@EnableConfigurationProperties(JwpPropeties.class) //Configuration'dan okuma yapan sınıfı enable ediyoruz.
+@EnableConfigurationProperties(JwtProperties.class)
 public class JwtService {
-    private final JwpPropeties jwtPropeties;
+    private final JwtProperties jwtProperties;
     private final SecretKey signingKey;
-    
-    
-    public JwtService(JwpPropeties jwtPropeties) {
-        this.jwtPropeties = jwtPropeties;
 
-        byte[] keyBytes = Decoders.BASE64.decode(jwtPropeties.getSecret()); //Secret çözülerek gerçek değer byte şeklinde tutulur.
-        this.signingKey = Keys.hmacShaKeyFor(keyBytes); //Bu tutulan değer JWT imzalamaya uygun gerçek bir güvenlik anahtarına dönüştürülür.
+    public JwtService(JwtProperties jwtProperties) {
+        this.jwtProperties = jwtProperties;
+        byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getSecret());
+        this.signingKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    //Core katmanında herkesin kullanabileceği kod yazılmalıdır.(O yüzden parametreye normal öğrenci kısmını vermedik.)
-    public String generate(UUID userId,String email)
-    {
+    public String generate(UUID userId, String email, String role) {
         Instant now = Instant.now();
         return Jwts.builder()
-        .issuer(this.jwtPropeties.getIssuer())
-        .subject(userId.toString())
-        .claim("email",email)
-        .claim("deneme", "deneme")
-        .issuedAt(Date.from(now))
-        .expiration(Date.from(now.plusSeconds(this.jwtPropeties.getExpirationSeconds())))
-        .signWith(this.signingKey)
-        .compact();
+            .issuer(this.jwtProperties.getIssuer())
+            .subject(userId.toString())
+            .claim("email", email)
+            .claim("role", role)
+            .issuedAt(Date.from(now))
+            .expiration(Date.from(now.plusSeconds(this.jwtProperties.getExpirationSeconds())))
+            .signWith(this.signingKey)
+            .compact();
     }
 
+    public String extractUserId(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
 
-   
-    
+    public String extractEmail(String token) {
+        return extractClaim(token, claims -> claims.get("email", String.class));
+    }
 
-    
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
+    }
+
+    public boolean isTokenValid(String token) {
+        try {
+            return !extractClaim(token, Claims::getExpiration).before(new Date());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private <T> T extractClaim(String token, Function<Claims, T> resolver) {
+        Claims claims = Jwts.parser()
+                .verifyWith(signingKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return resolver.apply(claims);
+    }
 }

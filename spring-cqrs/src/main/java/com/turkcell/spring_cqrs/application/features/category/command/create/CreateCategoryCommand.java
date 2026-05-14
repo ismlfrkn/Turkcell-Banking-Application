@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 // Command-Query -> DTO
 
 import com.turkcell.spring_cqrs.core.mediator.cqrs.Command;
+import com.turkcell.spring_cqrs.core.security.authorization.AuthorizableRequest;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -15,4 +16,9 @@ public record CreateCategoryCommand
     @Length(min = 5,max = 100)
     String name
 ) 
-implements Command<CreatedCategoryResponse> {}
+implements Command<CreatedCategoryResponse>,AuthorizableRequest {
+    @Override
+    public String[] requiredRoles() {
+        return new String[]{"ADMIN"};
+    }
+}

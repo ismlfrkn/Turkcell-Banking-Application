@@ -3,7 +3,7 @@ package com.turkcell.spring_cqrs.core.security.jwt;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "security.jwt")
-public class JwpPropeties {
+public class JwtProperties {
     private String secret; //Anahtarımız 'openssl rand -base64 48' ile oluşturulur fakat openssl kurulu olması gerekiyor.
     private long expirationSeconds = 360000;
     private String issuer = "spring_cqrs"; //JWT token’ını hangi uygulamanın / servisin ürettiğini belirten bilgidir.

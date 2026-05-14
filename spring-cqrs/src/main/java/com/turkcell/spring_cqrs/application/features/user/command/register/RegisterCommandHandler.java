@@ -9,8 +9,7 @@ import com.turkcell.spring_cqrs.domain.User;
 import com.turkcell.spring_cqrs.persistence.repository.UserRepository;
 
 @Component
-public class RegisterCommandHandler implements CommandHandler <RegisterCommand,RegisterResponse>
-{
+public class RegisterCommandHandler implements CommandHandler<RegisterCommand, RegisterResponse> {
     private final UserRepository userRepository;
     private final UserBusinessRules userBusinessRules;
     private final PasswordEncoder passwordEncoder;
@@ -25,14 +24,13 @@ public class RegisterCommandHandler implements CommandHandler <RegisterCommand,R
     @Override
     public RegisterResponse handle(RegisterCommand command) {
         this.userBusinessRules.userWithSameEmailMustNotExist(command.email());
-        
-        //todo: Move to mapper
+
         User user = new User();
         user.setEmail(command.email());
         user.setPassword(passwordEncoder.encode(command.password()));
+        user.setRole("USER");
         userRepository.save(user);
 
-        return new RegisterResponse(user.getId(),user.getEmail());
+        return new RegisterResponse(user.getId(), user.getEmail());
     }
-    
 }
